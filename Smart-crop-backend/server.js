@@ -104,5 +104,8 @@ app.post('/api/orders/checkout', async (req, res) => {
     res.status(500).json({ error: 'Server error processing checkout.' });
   }
 });
+app.get('/', (req, res) => {
+  res.send('Smart Crop Backend is running successfully!');
+});
 
 app.listen(PORT, () => console.log(`🚀 Backend Server running on port ${PORT}`));
