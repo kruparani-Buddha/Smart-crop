@@ -459,14 +459,16 @@ export default function App() {
       const speechText = event.results[0][0].transcript.toLowerCase().trim();
       console.log("Voice heard:", speechText);
       
-      // Greetings check - UI status lo chupinchadaniki
-      if (speechText.includes("hi") || speechText.includes("hello") || speechText.includes("హలో") || speechText.includes("नमस्ते")) {
-        setVoiceStatus("Hello! How can I help you?");
-        return;
-      }
-
-      // Keyword matching to navigate categories via voice
-      if (speechText.includes("seed") || speechText.includes("విత్తనాలు") || speechText.includes("बीज")) {
+      // Questions and Answers Logic
+      if (speechText.includes("how are you") || speechText.includes("ela unnav")) {
+        setVoiceStatus("I'm doing great! How can I help your crops today?");
+      } else if (speechText.includes("what is this store") || speechText.includes("smart crop store")) {
+        setVoiceStatus("This is Smart Crop Store, your one-stop shop for seeds, fertilizers, and machines.");
+      } else if (speechText.includes("hi") || speechText.includes("hello") || speechText.includes("హలో")) {
+        setVoiceStatus("Hello! Ask me about seeds, fertilizers, or machines.");
+      } 
+      // Keyword matching for categories
+      else if (speechText.includes("seed") || speechText.includes("విత్తనాలు") || speechText.includes("बीज")) {
         setCurrentCategory("seeds");
         setVoiceStatus(currentLang === "te" ? "విత్తనాలు చూపించబడుతున్నాయి" : "Showing Seeds");
       } else if (speechText.includes("fertilizer") || speechText.includes("ఎరువులు") || speechText.includes("उर्वरक")) {
@@ -475,11 +477,8 @@ export default function App() {
       } else if (speechText.includes("machine") || speechText.includes("యంత్రాలు") || speechText.includes("मशीन")) {
         setCurrentCategory("machines");
         setVoiceStatus(currentLang === "te" ? "యంత్రాలు చూపించబడుతున్నాయి" : "Showing Machines");
-      } else if (speechText.includes("waste") || speechText.includes("వ్యర్థాల") || speechText.includes("अपशिष्ट")) {
-        setCurrentCategory("waste");
-        setVoiceStatus(currentLang === "te" ? "వ్యర్థ పదార్థాలు చూపించబడుతున్నాయి" : "Showing Farm Waste");
       } else {
-        setVoiceStatus(`Heard: "${speechText}"`);
+        setVoiceStatus(`You asked: "${speechText}". Try asking about seeds or store details.`);
       }
     };
 
