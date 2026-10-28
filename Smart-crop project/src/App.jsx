@@ -507,7 +507,13 @@ export default function App() {
 
     recognition.onerror = (err) => {
       console.error("Speech recognition error:", err);
-      setVoiceStatus(t.voiceAssistant);
+      if (err.error === "no-speech") {
+        setAssistantReply("No speech detected. Please click the mic and try speaking again!");
+      } else if (err.error === "not-allowed") {
+        setAssistantReply("Microphone access blocked. Please allow mic permissions in your browser.");
+      } else {
+        setAssistantReply("Voice error occurred. Please try again.");
+      }
     };
   };
   return (
