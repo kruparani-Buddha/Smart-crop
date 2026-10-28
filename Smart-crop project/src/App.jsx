@@ -456,9 +456,16 @@ export default function App() {
     recognition.start();
 
     recognition.onresult = (event) => {
-      const speechText = event.results[0][0].transcript.toLowerCase();
+      const speechText = event.results[0][0].transcript.toLowerCase().trim();
+      console.log("Voice heard:", speechText); // Console lo em vinndo print avtundi
       setVoiceStatus(t.voiceAssistant);
       
+      // Greetings check
+      if (speechText.includes("hi") || speechText.includes("hello") || speechText.includes("హలో") || speechText.includes("नमस्ते")) {
+        alert("Hello! How can I help you with Smart Crop Store?");
+        return;
+      }
+
       // Keyword matching to navigate categories via voice
       if (speechText.includes("seed") || speechText.includes("విత్తనాలు") || speechText.includes("बीज")) {
         setCurrentCategory("seeds");
@@ -468,10 +475,13 @@ export default function App() {
         setCurrentCategory("machines");
       } else if (speechText.includes("waste") || speechText.includes("వ్యర్థాల") || speechText.includes("अपशिष्ट")) {
         setCurrentCategory("waste");
+      } else {
+        alert(`You said: "${speechText}". Please say seeds, fertilizers, machines, or waste.`);
       }
     };
 
-    recognition.onerror = () => {
+    recognition.onerror = (err) => {
+      console.error("Speech recognition error:", err);
       setVoiceStatus(t.voiceAssistant);
     };
   };
