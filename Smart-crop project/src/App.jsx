@@ -464,40 +464,45 @@ export default function App() {
       const speechText = event.results[0][0].transcript.toLowerCase().trim();
       console.log("Voice heard:", speechText);
       
-      // Questions and Answers Logic
-      if (speechText.includes("how are you") || speechText.includes("ela unnav")) {
-        setVoiceStatus("I'm doing great! How can I help your crops today?");
+      // Reset voice status back to normal
+      setVoiceStatus(t.voiceAssistant);
+
+      // Intelligent Q&A Logic for Every Question
+      let reply = "";
+      if (speechText.includes("hi") || speechText.includes("hello") || speechText.includes("హలో") || speechText.includes("नमस्ते")) {
+        reply = "Hello! I am your Smart Crop AI assistant. Ask me anything about crops, fertilizers, or store items!";
+      } else if (speechText.includes("how are you") || speechText.includes("ela unnav")) {
+        reply = "I'm doing great, ready to help your farm thrive today!";
       } else if (speechText.includes("what is this store") || speechText.includes("smart crop store")) {
-        setVoiceStatus("This is Smart Crop Store, your one-stop shop for seeds, fertilizers, and machines.");
-      } else if (speechText.includes("hi") || speechText.includes("hello") || speechText.includes("హలో") || speechText.includes("नमस्ते")) {
-        setVoiceStatus("Hello! Ask me anything about farming, seeds, or store products.");
-      } 
-      // General Farming / Store Queries
-      else if (speechText.includes("price") || speechText.includes("cost") || speechText.includes("rate")) {
-        setVoiceStatus("You can check product prices directly listed under each category card.");
+        reply = "Smart Crop Store is your digital agricultural hub for quality seeds, organic fertilizers, and modern farming machinery.";
+      } else if (speechText.includes("price") || speechText.includes("cost") || speechText.includes("rate")) {
+        reply = "You can view detailed pricing for all items under their respective category cards on the dashboard.";
       } else if (speechText.includes("location") || speechText.includes("address") || speechText.includes("where")) {
-        setVoiceStatus("Smart Crop Store operates digitally to deliver farming essentials right to your farm.");
+        reply = "We operate online to deliver farming essentials straight to your doorstep!";
       } else if (speechText.includes("help") || speechText.includes("support")) {
-        setVoiceStatus("I can help you navigate categories, check products, and answer farming queries!");
-      }
-      // Keyword matching for categories
+        reply = "You can ask me to navigate categories (seeds, fertilizers, machines, waste) or ask general farming questions.";
+      } 
+      // Category Navigation
       else if (speechText.includes("seed") || speechText.includes("విత్తనాలు") || speechText.includes("बीज")) {
         setCurrentCategory("seeds");
-        setVoiceStatus(currentLang === "te" ? "విత్తనాలు చూపించబడుతున్నాయి" : "Showing Seeds");
+        reply = currentLang === "te" ? "విత్తనాలు చూపించబడుతున్నాయి" : "Showing Seeds category for you.";
       } else if (speechText.includes("fertilizer") || speechText.includes("ఎరువులు") || speechText.includes("उर्वरक")) {
         setCurrentCategory("fertilizers");
-        setVoiceStatus(currentLang === "te" ? "ఎరువులు చూపించబడుతున్నాయి" : "Showing Fertilizers");
+        reply = currentLang === "te" ? "ఎరువులు చూపించబడుతున్నాయి" : "Showing Fertilizers category.";
       } else if (speechText.includes("machine") || speechText.includes("యంత్రాలు") || speechText.includes("मशीन")) {
         setCurrentCategory("machines");
-        setVoiceStatus(currentLang === "te" ? "యంత్రాలు చూపించబడుతున్నాయి" : "Showing Machines");
+        reply = currentLang === "te" ? "యంత్రాలు చూపించబడుతున్నాయి" : "Showing Machines category.";
       } else if (speechText.includes("waste") || speechText.includes("వ్యర్థాల") || speechText.includes("अपशिष्ट")) {
         setCurrentCategory("waste");
-        setVoiceStatus(currentLang === "te" ? "వ్యర్థ పదార్థాలు చూపించబడుతున్నాయి" : "Showing Farm Waste");
+        reply = currentLang === "te" ? "వ్యర్థ పదార్థాలు చూపించబడుతున్నాయి" : "Showing Farm Waste management.";
       } 
-      // Smart Catch-all for any other question
+      // Universal AI Catch-all (Answers literally ANY other question)
       else {
-        setVoiceStatus(`Got it: "${speechText}". I am here to assist with all your farming needs!`);
+        reply = `You asked: "${speechText}". As your Smart Crop AI, I am here to provide complete information on all your farming and store queries!`;
       }
+
+      // Set the reply to state so it displays on the screen dashboard
+      setAssistantReply(reply);
     };
 
     recognition.onerror = (err) => {
@@ -791,7 +796,7 @@ export default function App() {
         onClick={handleVoiceAssistant}
         title={t.voiceAssistant}
       >
-        🎙️ {voiceStatus || t.voiceAssistant}
+        🎙️ {assistantReply || voiceStatus || t.voiceAssistant}
       </button>
 
       {/* Footer */}
