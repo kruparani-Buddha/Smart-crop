@@ -451,70 +451,72 @@ export default function App() {
       return;
     }
 
-    const recognition = new SpeechRecognition();
-    recognition.lang = currentLang === "te" ? "te-IN" : currentLang === "hi" ? "hi-IN" : "en-US";
-    recognition.continuous = false;
-    recognition.interimResults = false;
-
-    setVoiceStatus(currentLang === "te" ? "వింటోంది..." : currentLang === "hi" ? "सुन रहा है..." : "Listening...");
-
-    recognition.onresult = (event) => {
-      try {
-        const speechText = event.results[0][0].transcript.toLowerCase().trim();
-        console.log("Voice heard:", speechText);
-
-        let reply = "";
-        if (speechText.includes("hi") || speechText.includes("hello") || speechText.includes("హలో") || speechText.includes("नमस्ते")) {
-          reply = "Hello! I am your Smart Crop AI assistant. Ask me anything about crops, fertilizers, or store items!";
-        } else if (speechText.includes("how are you") || speechText.includes("ela unnav")) {
-          reply = "I'm doing great, ready to help your farm thrive today!";
-        } else if (speechText.includes("what is this store") || speechText.includes("smart crop store")) {
-          reply = "Smart Crop Store is your digital agricultural hub for quality seeds, organic fertilizers, and modern farming machinery.";
-        } else if (speechText.includes("price") || speechText.includes("cost") || speechText.includes("rate")) {
-          reply = "You can view detailed pricing for all items under their respective category cards on the dashboard.";
-        } else if (speechText.includes("location") || speechText.includes("address") || speechText.includes("where")) {
-          reply = "We operate online to deliver farming essentials straight to your doorstep!";
-        } else if (speechText.includes("help") || speechText.includes("support")) {
-          reply = "You can ask me to navigate categories (seeds, fertilizers, machines, waste) or ask general farming questions.";
-        } 
-        // Category Navigation
-        else if (speechText.includes("seed") || speechText.includes("విత్తనాలు") || speechText.includes("बीज")) {
-          setCurrentCategory("seeds");
-          reply = currentLang === "te" ? "విత్తనాలు చూపించబడుతున్నాయి" : "Showing Seeds category for you.";
-        } else if (speechText.includes("fertilizer") || speechText.includes("ఎరువులు") || speechText.includes("उर्वरक")) {
-          setCurrentCategory("fertilizers");
-          reply = currentLang === "te" ? "ఎరువులు చూపించబడుతున్నాయి" : "Showing Fertilizers category.";
-        } else if (speechText.includes("machine") || speechText.includes("యంత్రాలు") || speechText.includes("मशीन")) {
-          setCurrentCategory("machines");
-          reply = currentLang === "te" ? "యంత్రాలు చూపించబడుతున్నాయి" : "Showing Machines category.";
-        } else if (speechText.includes("waste") || speechText.includes("వ్యర్థాల") || speechText.includes("अपशिष्ट")) {
-          setCurrentCategory("waste");
-          reply = currentLang === "te" ? "వ్యర్థ పదార్థాలు చూపించబడుతున్నాయి" : "Showing Farm Waste management.";
-        } 
-        // Universal AI Catch-all
-        else {
-          reply = `For winter season, you can grow wheat, mustard, and peas! (You asked: "${speechText}")`;
-        }
-
-        setAssistantReply(reply);
-        setVoiceStatus("");
-      } catch (err) {
-        console.error("Result processing error:", err);
-      }
-    };
-
-    recognition.onerror = (err) => {
-      // Ignore normal no-speech or aborted events so console stays clean
-      if (err.error === "no-speech" || err.error === "aborted") {
-        return;
-      }
-      console.warn("Speech recognition notice:", err.error);
-    };
-
     try {
+      const recognition = new SpeechRecognition();
+      recognition.lang = currentLang === "te" ? "te-IN" : currentLang === "hi" ? "hi-IN" : "en-US";
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      setVoiceStatus(currentLang === "te" ? "వింటోంది..." : currentLang === "hi" ? "सुन रहा है..." : "Listening...");
+
+      recognition.onresult = (event) => {
+        try {
+          const speechText = event.results[0][0].transcript.toLowerCase().trim();
+          console.log("Voice heard:", speechText);
+
+          let reply = "";
+          if (speechText.includes("hi") || speechText.includes("hello") || speechText.includes("హలో") || speechText.includes("नमस्ते")) {
+            reply = "Hello! I am your Smart Crop AI assistant. Ask me anything about crops, fertilizers, or store items!";
+          } else if (speechText.includes("how are you") || speechText.includes("ela unnav")) {
+            reply = "I'm doing great, ready to help your farm thrive today!";
+          } else if (speechText.includes("what is this store") || speechText.includes("smart crop store")) {
+            reply = "Smart Crop Store is your digital agricultural hub for quality seeds, organic fertilizers, and modern farming machinery.";
+          } else if (speechText.includes("price") || speechText.includes("cost") || speechText.includes("rate")) {
+            reply = "You can view detailed pricing for all items under their respective category cards on the dashboard.";
+          } else if (speechText.includes("location") || speechText.includes("address") || speechText.includes("where")) {
+            reply = "We operate online to deliver farming essentials straight to your doorstep!";
+          } else if (speechText.includes("help") || speechText.includes("support")) {
+            reply = "You can ask me to navigate categories (seeds, fertilizers, machines, waste) or ask general farming questions.";
+          } 
+          // Category Navigation
+          else if (speechText.includes("seed") || speechText.includes("విత్తనాలు") || speechText.includes("बीज")) {
+            setCurrentCategory("seeds");
+            reply = currentLang === "te" ? "విత్తనాలు చూపించబడుతున్నాయి" : "Showing Seeds category for you.";
+          } else if (speechText.includes("fertilizer") || speechText.includes("ఎరువులు") || speechText.includes("उर्वरक")) {
+            setCurrentCategory("fertilizers");
+            reply = currentLang === "te" ? "ఎరువులు చూపించబడుతున్నాయి" : "Showing Fertilizers category.";
+          } else if (speechText.includes("machine") || speechText.includes("యంత్రాలు") || speechText.includes("मशीन")) {
+            setCurrentCategory("machines");
+            reply = currentLang === "te" ? "యంత్రాలు చూపించబడుతున్నాయి" : "Showing Machines category.";
+          } else if (speechText.includes("waste") || speechText.includes("వ్యర్థాల") || speechText.includes("अपशिष्ट")) {
+            setCurrentCategory("waste");
+            reply = currentLang === "te" ? "వ్యర్థ పదార్థాలు చూపించబడుతున్నాయి" : "Showing Farm Waste management.";
+          } 
+          // Universal AI Catch-all
+          else {
+            reply = `You asked: "${speechText}". As your Smart Crop AI, I am here to assist with all your farming and store queries!`;
+          }
+
+          setAssistantReply(reply);
+          setVoiceStatus("");
+        } catch (err) {
+          console.error("Result processing error:", err);
+        }
+      };
+
+      recognition.onerror = () => {
+        // Silently catch and clear status to prevent any console clutter
+        setVoiceStatus("");
+      };
+
+      recognition.onend = () => {
+        setVoiceStatus("");
+      };
+
       recognition.start();
     } catch (e) {
       console.error("Recognition start error:", e);
+      setVoiceStatus("");
     }
   };
   return (
