@@ -799,15 +799,19 @@ export default function App() {
         </aside>
       </main>
 
-      {/* Floating Voice Assistant Widget / Banner */}
-      <div className="voice-assistant-container">
+      {/* Floating Voice Assistant Button / Display Box */}
+      <div className="voice-container">
         <button
           className="voice-assistant-fab"
           onClick={handleVoiceAssistant}
-          title={t.voiceAssistant}
         >
-          🎙️ {assistantReply || voiceStatus || "Click to speak"}
+          🎙️ Click to Speak
         </button>
+  
+        {/* 👉 IDI SCREEN MEEDA ANSWER CHUPINCHADANIKI CHALA MUKHYAM */}
+        <div className="assistant-reply-box" style={{ marginTop: "10px", padding: "10px", background: "#e8f5e9", borderRadius: "5px" }}>
+          <p>🤖 {assistantReply}</p>
+        </div>
       </div>
 
       {/* Footer */}
