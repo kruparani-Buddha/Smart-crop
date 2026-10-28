@@ -797,14 +797,16 @@ export default function App() {
         </aside>
       </main>
 
-      {/* Floating Voice Assistant Widget */}
-      <button
-        className="voice-assistant-fab"
-        onClick={handleVoiceAssistant}
-        title={t.voiceAssistant}
-      >
-        🎙️ {assistantReply || voiceStatus || t.voiceAssistant}
-      </button>
+      {/* Floating Voice Assistant Widget / Banner */}
+      <div className="voice-assistant-container">
+        <button
+          className="voice-assistant-fab"
+          onClick={handleVoiceAssistant}
+          title={t.voiceAssistant}
+        >
+          🎙️ {assistantReply || voiceStatus || "Click to speak"}
+        </button>
+      </div>
 
       {/* Footer */}
       <footer className="footer">
