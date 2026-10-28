@@ -457,26 +457,29 @@ export default function App() {
 
     recognition.onresult = (event) => {
       const speechText = event.results[0][0].transcript.toLowerCase().trim();
-      console.log("Voice heard:", speechText); // Console lo em vinndo print avtundi
-      setVoiceStatus(t.voiceAssistant);
+      console.log("Voice heard:", speechText);
       
-      // Greetings check
+      // Greetings check - UI status lo chupinchadaniki
       if (speechText.includes("hi") || speechText.includes("hello") || speechText.includes("హలో") || speechText.includes("नमस्ते")) {
-        alert("Hello! How can I help you with Smart Crop Store?");
+        setVoiceStatus("Hello! How can I help you?");
         return;
       }
 
       // Keyword matching to navigate categories via voice
       if (speechText.includes("seed") || speechText.includes("విత్తనాలు") || speechText.includes("बीज")) {
         setCurrentCategory("seeds");
+        setVoiceStatus(currentLang === "te" ? "విత్తనాలు చూపించబడుతున్నాయి" : "Showing Seeds");
       } else if (speechText.includes("fertilizer") || speechText.includes("ఎరువులు") || speechText.includes("उर्वरक")) {
         setCurrentCategory("fertilizers");
+        setVoiceStatus(currentLang === "te" ? "ఎరువులు చూపించబడుతున్నాయి" : "Showing Fertilizers");
       } else if (speechText.includes("machine") || speechText.includes("యంత్రాలు") || speechText.includes("मशीन")) {
         setCurrentCategory("machines");
+        setVoiceStatus(currentLang === "te" ? "యంత్రాలు చూపించబడుతున్నాయి" : "Showing Machines");
       } else if (speechText.includes("waste") || speechText.includes("వ్యర్థాల") || speechText.includes("अपशिष्ट")) {
         setCurrentCategory("waste");
+        setVoiceStatus(currentLang === "te" ? "వ్యర్థ పదార్థాలు చూపించబడుతున్నాయి" : "Showing Farm Waste");
       } else {
-        alert(`You said: "${speechText}". Please say seeds, fertilizers, machines, or waste.`);
+        setVoiceStatus(`Heard: "${speechText}"`);
       }
     };
 
