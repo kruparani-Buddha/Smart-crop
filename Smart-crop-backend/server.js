@@ -18,8 +18,9 @@ const razorpayInstance = new Razorpay({
   key_secret: 'wX3mJVAdQH0UB7OlNRwq8hgu'
 });
 
-// Connect to Local MongoDB
-mongoose.connect('mongodb://localhost:27017/smart_crop_store')
+
+// Connect to MongoDB Atlas
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/smart_crop_store')
   .then(() => console.log('✅ Connected to MongoDB Database'))
   .catch((err) => console.error('❌ MongoDB Connection Error:', err));
 
