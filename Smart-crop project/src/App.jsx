@@ -383,10 +383,10 @@ export default function App() {
 
     if (method === "razorpay") {
       try {
-        const res = await fetch("http://localhost:5000/api/payment/create-order", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ amount: totalAmount })
+        const res = await fetch("https://smart-crop-backend-0qon.onrender.com/api/payment/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: totalAmount })
         });
         
         if (!res.ok) {
