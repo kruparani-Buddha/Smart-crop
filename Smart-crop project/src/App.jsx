@@ -443,7 +443,24 @@ export default function App() {
     }
   };
   // --- REAL BROWSER SPEECH RECOGNITION VOICE ASSISTANT ---
-  recognition.onresult = (event) => {
+  const handleVoiceAssistant = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Speech recognition is not supported in this browser. Please use Google Chrome.");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = currentLang === "te" ? "te-IN" : currentLang === "hi" ? "hi-IN" : "en-US";
+    setVoiceStatus(currentLang === "te" ? "వింటోంది..." : currentLang === "hi" ? "सुन रहा है..." : "Listening...");
+    
+    try {
+      recognition.start();
+    } catch (e) {
+      console.error("Recognition start error:", e);
+    }
+
+    recognition.onresult = (event) => {
       const speechText = event.results[0][0].transcript.toLowerCase().trim();
       console.log("Voice heard:", speechText);
       
@@ -482,6 +499,12 @@ export default function App() {
         setVoiceStatus(`Got it: "${speechText}". I am here to assist with all your farming needs!`);
       }
     };
+
+    recognition.onerror = (err) => {
+      console.error("Speech recognition error:", err);
+      setVoiceStatus(t.voiceAssistant);
+    };
+  };
   return (
     <div className="app-container">
       {/* Top Header */}
