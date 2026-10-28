@@ -315,6 +315,7 @@ export default function App() {
   const [authMessage, setAuthMessage] = useState("");
   const [checkoutMessage, setCheckoutMessage] = useState("");
   const [voiceStatus, setVoiceStatus] = useState("");
+  const [assistantReply, setAssistantReply] = useState("Hello! Ask me anything about farming or store products.");
 
   const t = translations[currentLang];
   const currentProducts = productsData[currentCategory] || [];
