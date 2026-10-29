@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:5000/api";
+// 👉 Render Live Backend URL (Base API URL)
+const API_URL = "https://smart-crop-backend-0qon.onrender.com/api";
 
 // Handle Register & Login requests to Backend
 export const authenticateUser = async (endpoint, credentials) => {
@@ -10,6 +11,7 @@ export const authenticateUser = async (endpoint, credentials) => {
     });
     return await response.json();
   } catch (error) {
+    console.error("Auth error:", error);
     return { error: "Network error. Make sure backend server is running." };
   }
 };
@@ -24,6 +26,7 @@ export const submitOrder = async (orderData) => {
     });
     return await response.json();
   } catch (error) {
+    console.error("Checkout error:", error);
     return { error: "Network error during checkout." };
   }
 };

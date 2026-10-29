@@ -304,8 +304,6 @@ const productsData = {
     }
   ]
 };
-// Render backend URL ni base ga pettochu:
-const API_URL = "https://smart-crop-backend-0qon.onrender.com/api";
 export default function App() {
   const [currentLang, setCurrentLang] = useState("en");
   const [currentCategory, setCurrentCategory] = useState("seeds");
